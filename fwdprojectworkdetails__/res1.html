@@ -1,0 +1,297 @@
+<html>
+<head>
+<script  type="text/javascript"  src="fol.js">
+<script  type="text/javascript" src="aja.js">
+<script type="text/javascript" src="ref.js">
+</script>
+<style>
+<!--
+
+/* Context menu Script- © Dynamic Drive (www.dynamicdrive.com) Last updated: 01/08/22
+For full source code and Terms Of Use, visit http://www.dynamicdrive.com */
+
+.skin0{
+position:absolute;
+width:165px;
+border:2px solid black;
+background-color:menu;
+font-family:Verdana;
+line-height:20px;
+cursor:default;
+font-size:14px;
+z-index:100;
+visibility:hidden;
+}
+
+.menuitems{
+padding-left:10px;
+padding-right:10px;
+}
+-->
+
+</style>
+</head>
+<body >
+
+
+<table border="1" style ="border: 2px outset yellow" width="1000" height="500">
+<tr>
+
+<td width="200"bgcolor="#d2d8c7" >                              
+<div id="message" class="drag" style="position:absolute; top:50%; left:50%;  margin-left:-100px; font-size:12;background: transparent;
+          width: 75px; height: 75px; overflow: auto; visibility: hidden">
+</div>
+<center>
+<h3>FILE UPLOAD</h3>
+
+<form name="uploadform" action="up.php" method="POST" ENCTYPE="multipart/form-data" target="hiddenFrame">
+
+<input style="font:normal 10px Verdana" size="35" align="left" type="file" name="code" id="code">&nbsp;&nbsp;&nbsp;&nbsp;<br><button id=0 onclick="upload();return true">Upload</button>
+
+<iframe src="about:blank" id="ifram"name="hiddenFrame" width="350" height="350" 
+frameborder="1" ></iframe> 
+</center>
+
+<td  width="800"align="top">
+<div id="ie5menu" name="" class="skin0" onMouseover="highlightie5(event)" onMouseout="lowlightie5(event)" onClick="jumptoie5(event)">
+<img id="hidden" src="" style="visibility:hidden" width=0 height=0>
+<img id="hidden1" src="" style="visibility:hidden" width=0 height=0>
+<div class="menuitems"  id= "op" url="javascript:godown()">Open</div>
+<div class="menuitems" id="re"url="javascript:editCell(this)">Rename</div>
+<div class="menuitems" url="http://local">Cut</div>
+<div class="menuitems" url="http://wsabstract.com/cgi-bin/Ultimate.cgi">Copy</div>
+<div class="menuitems" url="http://dynamicdrive.com/faqs.htm">Paste</div>
+<div class="menuitems" url="http://dynamicdrive.com/submitscript.htm">Delete</div>
+<hr>
+<div class="menuitems" url="mailto:dynamicdrive@yahoo.com">Properties</div> 
+</div>
+<div id="result">&nbsp;
+<img src="folder.gif" id= -1 onmousedown="whichButton(event)">
+<img alt="Root" align = "bottom">
+</div>
+<div id="txt">&nbsp;
+<input type="hidden" id="hidti">
+</td>
+
+</tr>
+</table>
+</form>
+</body>
+</html>
+
+
+<script language="JavaScript1.2">
+
+//set this variable to 1 if you wish the URLs of the highlighted menu to be displayed in the status bar
+var display_url=0
+
+var ie5=document.all&&document.getElementById
+var ns6=document.getElementById&&!document.all
+if (ie5||ns6)
+var menuobj=document.getElementById("ie5menu")
+
+function showmenuie5(e){
+//Find out how close the mouse is to the corner of the window
+var rightedge=ie5? document.body.clientWidth-event.clientX : window.innerWidth-e.clientX
+var bottomedge=ie5? document.body.clientHeight-event.clientY : window.innerHeight-e.clientY
+
+//if the horizontal distance isn't enough to accomodate the width of the context menu
+if (rightedge<menuobj.offsetWidth)
+//move the horizontal position of the menu to the left by it's width
+menuobj.style.left=ie5? document.body.scrollLeft+event.clientX-menuobj.offsetWidth : window.pageXOffset+e.clientX-menuobj.offsetWidth
+else
+//position the horizontal position of the menu where the mouse was clicked
+menuobj.style.left=ie5? document.body.scrollLeft+event.clientX : window.pageXOffset+e.clientX
+
+//same concept with the vertical position
+if (bottomedge<menuobj.offsetHeight)
+menuobj.style.top=ie5? document.body.scrollTop+event.clientY-menuobj.offsetHeight : window.pageYOffset+e.clientY-menuobj.offsetHeight
+else
+menuobj.style.top=ie5? document.body.scrollTop+event.clientY : window.pageYOffset+e.clientY
+
+menuobj.style.visibility="visible"
+return false
+}
+
+function hidemenuie5(e){
+menuobj.style.visibility="hidden"
+}
+
+function highlightie5(e){
+var firingobj=ie5? event.srcElement : e.target
+if (firingobj.className=="menuitems"||ns6&&firingobj.parentNode.className=="menuitems"){
+if (ns6&&firingobj.parentNode.className=="menuitems") firingobj=firingobj.parentNode //up one node
+firingobj.style.backgroundColor="highlight"
+firingobj.style.color="white"
+if (display_url==1)
+window.status=event.srcElement.url
+}
+}
+
+function lowlightie5(e){
+var firingobj=ie5? event.srcElement : e.target
+if (firingobj.className=="menuitems"||ns6&&firingobj.parentNode.className=="menuitems"){
+if (ns6&&firingobj.parentNode.className=="menuitems") firingobj=firingobj.parentNode //up one node
+firingobj.style.backgroundColor=""
+firingobj.style.color="black"
+window.status=''
+}
+}
+
+function jumptoie5(e){
+var firingobj=ie5? event.srcElement : e.target
+if (firingobj.className=="menuitems"||ns6&&firingobj.parentNode.className=="menuitems"){
+if (ns6&&firingobj.parentNode.className=="menuitems") firingobj=firingobj.parentNode
+if (firingobj.getAttribute("target"))
+window.open(firingobj.getAttribute("url"),firingobj.getAttribute("target"))
+else
+window.location=firingobj.getAttribute("url")
+}
+}//if (ie5||ns6){
+//menuobj.style.display=''
+
+//document.oncontextmenu=showmenuie5
+//document.oncontextmenu=showmenuie5
+//document.onclick=hidemenuie5
+//showmenuie5();
+//menuobj.style.display=''
+        //document.oncontextmenu=showmenuie5
+//document.onclick=hidemenuie5
+
+function whichButton(event)
+  {
+//alert(event.target.id);
+document.getElementById("hidden").src=event.target.id;
+document.getElementById("hidden1").src=event.target.name;
+ 
+    if (event.button==2)
+      {
+        //alert(event);
+//document.getElementById("hidden").src=event.target.id;
+//alert(document.getElementById("ie5menu").innerHTML);
+        
+document.oncontextmenu=showmenuie5
+document.onclick=hidemenuie5
+    disable();
+
+      }
+    else
+      {
+//alert("hai");
+      godown();
+
+      }
+
+}
+  //}
+ document.oncontextmenu = function disable() {
+
+
+        return false;
+    }
+
+
+function upload()
+{
+
+var s=document.getElementById("hidden").src;
+ s=s.replace(/http:\/\/localhost\//ig, "");
+
+alert(s);
+var upRequest = new XMLHttpRequest();
+
+var q = "fid=" + s  ;
+        //var q1="id="+fid;
+        alert(q);
+	upRequest.open("GET", "uplo.php?" + q, true);
+        //ajaxRequest.onreadystatechange = callback;  
+	upRequest.send(null); 
+
+ var oForm = document.uploadform;
+oForm.submit();  
+}
+
+function rname()
+
+{
+flag=true;
+
+var f=document.getElementById("hidden").src;
+ f=f.replace(/http:\/\/localhost\//ig, "");
+var n=document.getElementById("hidden1").src;
+n=n.replace(/http:\/\/localhost\//ig, "");
+alert(n);
+alert(f);
+var in1 = document.createElement("input");
+in1.id = "rname";
+in1.size="10";
+in1.value=n;
+in1.onfocus="true";
+//input.onclick=
+var elem = document.getElementById("result");
+elem.appendChild( in1);
+elem.focus();
+//elem.innerHTML=elem.appendChild(in1);
+elem.onclick=function back()
+{
+var h= document.getElementById("rname").value;
+alert(h);
+ //window.location.reload( true);
+}
+
+//document.getElementById('rname').style.visibility = 'hidden';
+}
+function editCell (cell) {
+//var cell=document.getElementById('tb');
+
+//alert(cell.firstChild.nodeValue);
+//alert(cell);
+var id=document.getElementById("hidden").src;
+id=id.replace(/http:\/\/localhost\//ig, "");
+//var cell=document.getElementById('tb');
+alert(cell);
+
+//alert(na);
+
+  if (document.all) {
+alert("DDDD");
+    cell.innerHTML =
+      '<INPUT ' +
+      ' ID="editCell"' +
+      ' ONCLICK="event.cancelBubble = true;"' + 
+      ' ONCHANGE="setCell(this.parentElement, this.value)" ' +
+      ' ONBLUR="" ' +
+      
+      ' SIZE="' + cell.innerText.length + '"' +
+      '>';
+    document.all.editCell.focus();
+    document.all.editCell.select();
+  }
+  else if (document.getElementById) {
+    cell.normalize();
+    var input = document.createElement('INPUT');
+    input.setAttribute('value',cell.firstChild.nodeValue);
+    input.setAttribute('size', cell.firstChild.nodeValue.length);
+    input.onchange = function (evt) { setCell(this.parentNode, 
+this.value); };
+    input.onclick = function (evt) { 
+      evt.cancelBubble = true;
+      if (evt.stopPropagation)
+        evt.stopPropagation();
+    };
+    cell.replaceChild(input, cell.firstChild);
+    input.focus();
+    input.select();
+  }
+
+}
+function setCell (cell, value) {
+  if (document.all)
+    cell.innerText = value;
+  else if (document.getElementById)
+    cell.replaceChild(document.createTextNode(value), cell.firstChild);
+}
+
+</script>
+
+
